@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Smpt4devSample.WebApp.Models;
 
 namespace Smpt4devSample.WebApp.Controllers

@@ -23,7 +23,10 @@ namespace Smpt4devSample.UiTests
         {
             // output should look like 9014dbca920e40dfa7c760a4a4808759@localhost
             var emailAddress = $"{Guid.NewGuid().ToString("N")}@localhost";
-            using (var driver = new ChromeDriver())
+
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("headless");
+            using (var driver = new ChromeDriver(chromeOptions))
             {
                 driver.Navigate().GoToUrl("https://localhost:5001");
                 driver.FindElementById("firstName").SendKeys("Jon");
@@ -39,6 +42,8 @@ namespace Smpt4devSample.UiTests
                 Assert.IsTrue(driver.PageSource.Contains("Thank you for contacting us"));
             }
 
+            // more to come
+
             using (var client = new ImapClient())
             {
                 client.Connect("localhost", 143);
@@ -46,7 +51,7 @@ namespace Smpt4devSample.UiTests
 
                 // The Inbox folder is always available on all IMAP servers...
                 var inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadWrite);
+                inbox.Open(FolderAccess.ReadOnly);
 
                 var emailToSiteOwner = inbox.GetMessage(inbox.Count - 1);
                 var emailToSubmitter = inbox.GetMessage(inbox.Count - 2);
